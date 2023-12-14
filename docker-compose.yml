@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  # Flask service for audio classification
+  audio_classification:
+    build:
+      context: ./test
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./test:/app
+    depends_on:
+      - vgg19_service
+    networks:
+      - my_network
+
+  # Flask service for VGG19 classification
+  vgg19_service:
+    build:
+      context: ./vgg19_service
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./vgg19_service:/app
+    networks:
+      - my_network
+
+  # Add other services as needed, such as databases, etc.
+
+networks:
+  my_network:
+    driver: bridge
+
